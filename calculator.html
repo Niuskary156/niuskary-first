@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fuel Efficiency Calculator</title>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    function validateForm() {
+      const miles = document.forms["ecoForm"]["miles"].value;
+      const gallons = document.forms["ecoForm"]["gallons"].value;
+      if (miles <= 0 || gallons <= 0) {
+        alert("Please enter values greater than zero.");
+        return false;
+      }
+      return true;
+    }
+  </script>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="index.php">Home</a></li>
+      <li><a href="calculator.php">Calculator</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+  </nav>
+  <h1>Fuel Efficiency Calculator</h1>
+  <form name="ecoForm" method="post" onsubmit="return validateForm()">
+    <label for="miles">Miles Driven:</label>
+    <input type="number" name="miles" required>
+    <label for="gallons">Gallons Used:</label>
+    <input type="number" name="gallons" required>
+    <button type="submit">Calculate MPG</button>
+  </form>
+
+  <?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+      $miles = $_POST["miles"];
+      $gallons = $_POST["gallons"];
+      if ($gallons > 0) {
+        $mpg = $miles / $gallons;
+        echo "<p>You drove <strong>$miles</strong> miles using <strong>$gallons</strong> gallons.</p>";
+        echo "<p>Your fuel efficiency is <strong>" . round($mpg, 2) . " MPG</strong>.</p>";
+      } else {
+        echo "<p>Please enter a valid number of gallons.</p>";
+      }
+    }
+  ?>
+</body>
+</html>
